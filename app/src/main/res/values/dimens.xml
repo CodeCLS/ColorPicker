@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_color_control_view">20dp</dimen>
+    <dimen name="segmented_color_layout_height">75dp</dimen>
+    <dimen name="margin_standard">16dp</dimen>
+</resources>

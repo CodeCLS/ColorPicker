@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/segmented_color_layout_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_1"
+
+    android:orientation="horizontal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/three_way_option_teal_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:layout_weight="1"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="@dimen/size_color_control_view"
+            android:layout_height="@dimen/size_color_control_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/round_background_color_control"
+            app:tint="@color/teal" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/three_way_option_green_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+
+        android:layout_weight="1"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="@dimen/size_color_control_view"
+            android:layout_height="@dimen/size_color_control_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/round_background_color_control"
+            app:tint="@color/green"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/three_way_option_orange_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+
+        android:layout_weight="1"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="@dimen/size_color_control_view"
+            android:layout_height="@dimen/size_color_control_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/round_background_color_control"
+            app:tint="@color/orange"/>
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
