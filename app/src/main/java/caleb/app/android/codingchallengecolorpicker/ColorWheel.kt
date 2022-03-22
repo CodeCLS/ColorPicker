@@ -100,9 +100,6 @@ class ColorWheel @JvmOverloads constructor(
 
     fun setColor(color:Int):Unit{
         this.colorMarker = color
-        setCoordinates(calculateCords(color))
-        postInvalidate()
-        listener.OnColorChange(this.colorMarker)
     }
     fun setCoordinates(pair: Pair<Float,Float>):Unit{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -134,8 +131,12 @@ class ColorWheel @JvmOverloads constructor(
             return
         }
         val color = calculateColor(x.toInt(),y.toInt())
-        setColor(color)
         setCoordinates(calculateCords(color))
+
+        setColor(color)
+
+        //setCoordinates(calculateCords(color))
+        listener.OnColorChange(this.colorMarker)
 
 
     }
@@ -152,6 +153,7 @@ class ColorWheel @JvmOverloads constructor(
     }
     private fun calculateCords(color:Int): Pair<Float, Float> {
         val hsv = FloatArray(3)
+        Color.colorToHSV(color,hsv)
 
         val legXFromMid = (width / 2.toFloat()) + cos(Math.toRadians(hsv[0].toDouble())) * (radius) * hsv[1]
         val legY = (radius) + sin(Math.toRadians(hsv[0].toDouble())) * (radius)* hsv[1]

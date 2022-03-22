@@ -62,15 +62,20 @@ class SegmentedColorControl :FrameLayout{
             index = 0
             setColor( colorOptions[0])
 
+            if (listener != null)
+                listener.OnColorChange(clickedColor)
         }
         greenParentBtn.setOnClickListener {
             index = 1
             setColor( colorOptions[1])
-
+            if (listener != null)
+                listener.OnColorChange(clickedColor)
         }
         orangeParentBtn.setOnClickListener {
             index = 2
             setColor(colorOptions[2])
+            if (listener != null)
+                listener.OnColorChange(clickedColor)
         }
     }
 
@@ -93,8 +98,6 @@ class SegmentedColorControl :FrameLayout{
         p0?.setBackgroundColor(resources.getColor(R.color.background_selected,null))
         currentSelectedView = p0 as ConstraintLayout
 
-        if (listener != null)
-            listener.OnColorChange(clickedColor)
 
 
     }
