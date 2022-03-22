@@ -15,6 +15,7 @@ class ColorWheel @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr){
 
 
+    private lateinit var listener: SegmentedColorControl.ControlFeedback
     private var margin: Int = 0
     private var radius: Float = 0f
     private var posXMarker: Float = 500.toFloat()
@@ -28,6 +29,11 @@ class ColorWheel @JvmOverloads constructor(
     private var paintBorder :Paint = Paint()
 
     private fun init() {
+        radius =width / 2.toFloat()
+        margin = resources.getDimensionPixelSize(R.dimen.margin_standard)
+        posXMarker = radius
+        posYMarker = radius
+
         paint = Paint()
         paint.isAntiAlias = true
         paintOverlay = Paint()
@@ -37,7 +43,7 @@ class ColorWheel @JvmOverloads constructor(
             Color.BLUE, Color.MAGENTA, Color.RED
         )
         sweepShader = SweepGradient(radius,radius,mColors,floatArrayOf(
-            0.000f, 0.166f, 0.333f, 0.499f,
+            0.000f, 0.166f, 0.333f, 0.499f, // (360/numbers) / 360 because percentage of sections
             0.666f, 0.833f, 0.999f))
         paint.shader = (sweepShader)
 
@@ -60,50 +66,48 @@ class ColorWheel @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(widthMeasureSpec,widthMeasureSpec)
-
-
-
-
-
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         if (radius == 0f){
-            radius =width / 2.toFloat()
-            margin = resources.getDimensionPixelSize(R.dimen.margin_standard)
-            posXMarker = radius
-            posYMarker = radius
-
             init()
         }
         if(canvas != null) {
-            canvas.drawCircle(radius, radius, radius-margin,
-                paint
-            )
-            canvas.drawCircle(radius, radius, radius-margin,
-                paintOverlay
-            )
-            canvas.drawCircle(posXMarker,posYMarker,50.toFloat(), paintBorder)
-            paintBorder.color = (colorMarker)
-            canvas.drawCircle(posXMarker,posYMarker,45.toFloat(), paintBorder)
-            paintBorder.color = (Color.WHITE)
+            drawOnCanvas(canvas)
 
         }
 
 
 
     }
+
+    private fun drawOnCanvas(canvas: Canvas) {
+        canvas.drawCircle(
+            radius, radius, radius - margin,
+            paint
+        )
+        canvas.drawCircle(
+            radius, radius, radius - margin,
+            paintOverlay
+        )
+        canvas.drawCircle(posXMarker, posYMarker, 50.toFloat(), paintBorder)
+        paintBorder.color = (colorMarker)
+        canvas.drawCircle(posXMarker, posYMarker, 45.toFloat(), paintBorder)
+        paintBorder.color = (Color.WHITE)
+
+    }
+
     fun setColor(color:Int):Unit{
         this.colorMarker = color
         setCoordinates(calculateCords(color))
         postInvalidate()
+        listener.OnColorChange(this.colorMarker)
     }
     fun setCoordinates(pair: Pair<Float,Float>):Unit{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             posXMarker = pair.first.toFloat()
             posYMarker = pair.second.toFloat()
-            //colorMarker = Color.valueOf(Color.CYAN).toArgb(). * posXMarker / width
 
             postInvalidate()
         }
@@ -116,6 +120,7 @@ class ColorWheel @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 updateColorOnMotionEvent(event)
             }
+
         }
 
         return true
@@ -129,7 +134,6 @@ class ColorWheel @JvmOverloads constructor(
             return
         }
         val color = calculateColor(x.toInt(),y.toInt())
-        this.colorMarker = color
         setColor(color)
         setCoordinates(calculateCords(color))
 
@@ -148,12 +152,15 @@ class ColorWheel @JvmOverloads constructor(
     }
     private fun calculateCords(color:Int): Pair<Float, Float> {
         val hsv = FloatArray(3)
-        val i = Color.colorToHSV(color,hsv)
 
         val legXFromMid = (width / 2.toFloat()) + cos(Math.toRadians(hsv[0].toDouble())) * (radius) * hsv[1]
         val legY = (radius) + sin(Math.toRadians(hsv[0].toDouble())) * (radius)* hsv[1]
         return Pair(legXFromMid.toFloat(),legY.toFloat())
     }
+    public fun setListener(listener: SegmentedColorControl.ControlFeedback) {
+        this.listener = listener
+    }
+
 
 
 }

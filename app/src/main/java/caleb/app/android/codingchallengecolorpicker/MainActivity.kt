@@ -25,7 +25,11 @@ class MainActivity : AppCompatActivity() {
                 wheel.setColor(color)
             }
         })
-
+        wheel.setListener( object : SegmentedColorControl.ControlFeedback {
+            override fun OnColorChange(color: Int) {
+                control.setColor(color)
+            }
+        })
 
     }
 
