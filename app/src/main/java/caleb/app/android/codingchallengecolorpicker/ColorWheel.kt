@@ -100,6 +100,9 @@ class ColorWheel @JvmOverloads constructor(
 
     fun setColor(color:Int):Unit{
         this.colorMarker = color
+        setCoordinates(calculateCords(color))
+
+
     }
     fun setCoordinates(pair: Pair<Float,Float>):Unit{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
